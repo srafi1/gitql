@@ -22,7 +22,7 @@ type NodeProgram struct {
 
 type NodeSelect struct {
 	WildCard bool
-	Fields   []string
+	Fields   []NodeParam
 	Tables   []string
 	Where    NodeExpr
 	Order    *NodeOrder
@@ -106,6 +106,11 @@ type NodeId struct {
 	leftValue  NodeExpr
 	rightValue NodeExpr
 	value      string
+}
+
+type NodeParam struct {
+	Name string
+	wildCard bool
 }
 
 type NodeOrder struct {

@@ -322,6 +322,16 @@ func (g *GitBuilder) isValidTable(tableName string) error {
 	return nil
 }
 
+func (g *GitBuilder) GetFieldsFromTable(tableName string) []parser.NodeParam {
+	strFields := g.possibleTables[tableName]
+	var params []parser.NodeParam
+	for _, f := range strFields {
+		params = append(params, parser.NodeParam{Name: f})
+	}
+
+	return params
+}
+
 func (g *GitBuilder) UseFieldFromTable(field string, tableName string) error {
 	err := g.isValidTable(tableName)
 	if err != nil {

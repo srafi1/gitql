@@ -17,9 +17,13 @@ func walkReferences(n *parser.NodeProgram, visitor *RuntimeVisitor) (*TableData,
 		return nil, err
 	}
 	counter := 1
-	fields := s.Fields
+	var fields []string 
 	if s.WildCard {
 		fields = builder.possibleTables[s.Tables[0]]
+	} else {
+		for _, f := range s.Fields {
+			fields = append(fields, f.Name)
+		}
 	}
 	rows := make([]tableRow, s.Limit)
 	usingOrder := false
@@ -32,10 +36,6 @@ func walkReferences(n *parser.NodeProgram, visitor *RuntimeVisitor) (*TableData,
 		boolRegister = true
 		visitor.VisitExpr(where)
 		if boolRegister {
-			fields := s.Fields
-			if s.WildCard {
-				fields = builder.possibleTables[s.Tables[0]]
-			}
 			newRow := make(tableRow)
 			for _, f := range fields {
 				newRow[f] = metadataReference(f, object)

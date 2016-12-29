@@ -83,7 +83,7 @@ func gSelect() (*NodeSelect, error) {
 		return nil, err2
 	}
 
-	if len(fields) == 1 && fields[0] == "*" {
+	if len(fields) == 1 && fields[0].wildCard {
 		s.WildCard = true
 	}
 	s.Fields = fields
@@ -149,18 +149,19 @@ func gTableNames() ([]string, error) {
 	return tables, nil
 }
 
-func gTableParams() ([]string, error) {
+func gTableParams() ([]NodeParam, error) {
+	var fields = []NodeParam{}
 	if look_ahead == lexical.T_WILD_CARD {
 		token, err := lexical.Token()
 		if err != nil {
 			return nil, err
 		}
 		look_ahead = token
-		return []string{"*"}, nil
+		return append(fields, NodeParam{wildCard: true}), nil
 	}
-	var fields = []string{}
+	
 	if look_ahead == lexical.T_ID {
-		fields := append(fields, lexical.CurrentLexeme)
+		fields := append(fields, NodeParam{Name: lexical.CurrentLexeme})
 		token, err := lexical.Token()
 		if err != nil {
 			return nil, err
@@ -174,7 +175,7 @@ func gTableParams() ([]string, error) {
 
 }
 
-func gTableParamsRest(fields *[]string, count int) ([]string, error) {
+func gTableParamsRest(fields *[]NodeParam, count int) ([]NodeParam, error) {
 	if lexical.T_COMMA == look_ahead {
 		var errorToken *lexical.TokenError
 		look_ahead, errorToken = lexical.Token()
@@ -185,7 +186,7 @@ func gTableParamsRest(fields *[]string, count int) ([]string, error) {
 			return *fields, throwSyntaxError(lexical.T_ID, look_ahead)
 		}
 
-		n := append(*fields, lexical.CurrentLexeme)
+		n := append(*fields, NodeParam{Name: lexical.CurrentLexeme})
 		fields = &n
 		look_ahead, errorToken = lexical.Token()
 		if errorToken != nil {

@@ -22,7 +22,7 @@ func (v *RuntimeVisitor) VisitSelect(n *parser.NodeSelect) error {
 			}
 
 		} else {
-			n.Fields = builder.possibleTables[proxyTableName]
+			n.Fields =  builder.GetFieldsFromTable(proxyTableName)
 			n.WildCard = false
 		}
 
@@ -60,9 +60,9 @@ func (v *RuntimeVisitor) VisitSelect(n *parser.NodeSelect) error {
 	// Because we will, at first, discover the current object
 }
 
-func testAllFieldsFromTable(fields []string, table string) error {
+func testAllFieldsFromTable(fields []parser.NodeParam, table string) error {
 	for _, f := range fields {
-		err := builder.UseFieldFromTable(f, table)
+		err := builder.UseFieldFromTable(f.Name, table)
 		if err != nil {
 			return err
 		}

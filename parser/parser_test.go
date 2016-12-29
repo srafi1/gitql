@@ -70,7 +70,7 @@ func TestUsingOneFieldName(t *testing.T) {
 		t.Errorf("Expected exactly one field and found %d", len(selectNode.Fields))
 	}
 
-	if selectNode.Fields[0] != "name" {
+	if selectNode.Fields[0].Name != "name" {
 		t.Errorf("Expected param 'name' and found '%s'", selectNode.Fields[0])
 	}
 }

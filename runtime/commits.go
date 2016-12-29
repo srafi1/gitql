@@ -18,9 +18,13 @@ func walkCommits(n *parser.NodeProgram, visitor *RuntimeVisitor) (*TableData, er
 	where := s.Where
 
 	counter := 1
-	fields := s.Fields
+	var fields []string 
 	if s.WildCard {
 		fields = builder.possibleTables[s.Tables[0]]
+	} else {
+		for _, f := range s.Fields {
+			fields = append(fields, f.Name)
+		}
 	}
 	rows := make([]tableRow, s.Limit)
 	usingOrder := false
