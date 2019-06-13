@@ -12,3 +12,9 @@ before_script:
     - "export PKG_CONFIG_PATH=$PWD/libgit2/install/lib/pkgconfig"
 script: 
    - make test
+
+jobs:
+   include:
+     - stage: "Build"
+       name: "gitql build"
+       script: make && ./gitql -v
