@@ -6,9 +6,10 @@ import (
 	"os"
 
 	"encoding/json"
-	"github.com/cloudson/git2go"
+
 	"github.com/cloudson/gitql/parser"
 	"github.com/cloudson/gitql/semantical"
+	git "github.com/libgit2/git2go"
 	"github.com/olekukonko/tablewriter"
 )
 
@@ -198,7 +199,7 @@ func metadata(identifier string) string {
 	case WALK_REFERENCES:
 		return metadataReference(identifier, builder.currentReference)
 	case WALK_REMOTES:
-		return metadataRemote(identifier, builder.currentRemote)
+		return metadataRemote(identifier, builder.currentRemote, builder.repo)
 	}
 
 	log.Fatalln("GOD!")
@@ -237,7 +238,7 @@ func proxyTableEntry(t string, f map[string]string) *proxyTable {
 }
 
 func openRepository(path *string) {
-	_repo, err := git.OpenRepositoryExtended(*path)
+	_repo, err := git.OpenRepository(*path)
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -6,7 +6,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	_ "unicode"
 
 	"github.com/cloudson/gitql/lexical"
 )
@@ -165,7 +164,7 @@ func gTableParams() ([]string, error) {
 		}
 		look_ahead = token
 		return []string{"*"}, nil
-	} else	if look_ahead == lexical.T_COUNT {
+	} else if look_ahead == lexical.T_COUNT {
 		result, err := gCount()
 		return result, err
 	}
