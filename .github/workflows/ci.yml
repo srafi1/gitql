@@ -27,5 +27,14 @@ jobs:
         GOPATH: /home/runner/work/cloudson/go
         TARGET_OS_ARCH: linux/amd64
       run: | 
-        ./install.sh 
+        make build
+        ./gitql -v
+    
+    - name: Build mac
+      env:
+        GOPATH: /home/runner/work/cloudson/go
+        TARGET_OS_ARCH: linux/amd64
+      run: | 
+        make build-dynamic
+        go build
         ./gitql -v
