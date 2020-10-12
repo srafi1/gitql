@@ -1,4 +1,4 @@
-Gitql ![](https://github.com/cloudson/gitql/workflows/CI/badge.svg)
+Gitql teste ![](https://github.com/cloudson/gitql/workflows/CI/badge.svg)
 ===============
 
 Gitql is a Git query language.
